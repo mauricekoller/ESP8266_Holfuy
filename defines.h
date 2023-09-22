@@ -3,6 +3,7 @@
 
 #define DISPLAY_W 128
 #define DISPLAY_H 64
+
 #define JSON_BUFFER_SIZE 12288
 
 #define SSID ""
