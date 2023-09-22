@@ -87,6 +87,12 @@ void loop() {
     delay(1000);
 }
 
+/**
+ * @brief Renders weather information.
+ * Does not actually display, use display.display() afterwards.
+ * @param station_name The name of the weather station.
+ * @param json The weather information in a DynamicJsonDocument object.
+ */
 void RenderWeather(String station_name, DynamicJsonDocument json) {
     int speed = json["wind"]["speed"];
     int gust = json["wind"]["gust"];
@@ -114,6 +120,11 @@ void RenderWeather(String station_name, DynamicJsonDocument json) {
     display.println("C");
 }
 
+/**
+ * @brief Renders a wind curve.
+ * Does not actually display, use display.display() afterwards.
+ * @param curve A DynamicJsonDocument containing wind measurements.
+ */
 void RenderCurve(DynamicJsonDocument curve) {
     int len = curve["measurements"].size();
     int min_speed = 0, max_speed = 0, min_gust = 0, max_gust = 0;
@@ -167,6 +178,13 @@ void RenderCurve(DynamicJsonDocument curve) {
     }
 }
 
+/**
+ * @brief Fetches JSON data from the specified URL and returns a
+ * DynamicJsonDocument object.
+ *
+ * @param url The URL to fetch JSON data from.
+ * @return A DynamicJsonDocument object containing the fetched JSON data.
+ */
 DynamicJsonDocument FetchData(String url) {
     DynamicJsonDocument jsonDoc(JSON_BUFFER_SIZE);
     Serial.println("fetching: " + url);
@@ -185,6 +203,15 @@ DynamicJsonDocument FetchData(String url) {
     return jsonDoc;
 }
 
+/**
+ * @brief Pads a string with spaces to a specified width.
+ *
+ * @param value The integer value to be converted to a string and padded.
+ * @param width The desired width of the resulting string.
+ * @param trailing If true, pads the string with spaces after the value. If
+ * false, pads the string with spaces before the value.
+ * @return String The padded string.
+ */
 String StrPad(int value, int width, bool trailing) {
     String str = String(value);
     while (str.length() < width) {
@@ -194,6 +221,13 @@ String StrPad(int value, int width, bool trailing) {
     return str + " ";
 }
 
+/**
+ * @brief Replaces placeholders in the given URL string with the STATION_ID and
+ * API_KEY, and returns the modified URL.
+ * @param url The URL string with placeholders for the STATION_ID and API_KEY.
+ * @return The modified URL string with the placeholders replaced by the actual
+ * STATION_ID and API_KEY.
+ */
 String BuildUrl(String url) {
     url.replace("STATION", STATION_ID);
     url.replace("API-KEY", API_KEY);
